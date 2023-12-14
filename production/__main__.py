@@ -32,7 +32,7 @@ if ready:
     question = pd.Series([f'{titre} {corpus}'])
     question_norm = step_1_3_main_normalisation_texte(question)
 
-    pred = use_and_predict(question_norm, use, pred_model)
+    pred = use_and_predict(question_norm, use, scaler, ACP, pred_model)
 
     st.subheader('Voici comment a été converti la question pour le modèle : ')
     st.text_area('Voici comment a été converti la question pour le modèle : ', question_norm[0], label_visibility='collapsed')
