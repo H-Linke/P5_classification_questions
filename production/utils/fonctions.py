@@ -16,7 +16,7 @@ import tensorflow as tf
 import tensorflow_hub as hub
 import tensorflow_text as text
 
-from utils.constantes import emoticons_regex, stop_words, Tags
+from constantes import emoticons_regex, stop_words, Tags
 
 
 ##########################
