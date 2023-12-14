@@ -20,7 +20,7 @@ performant. Ceci est réaliser avec un suivi __MLFLOW__.
     * Le modèle le plus performant est entraîné et enregistré dans MLFLOW avec le maximum de données.
 3. Le dossier `production` dans lequel est développé le script permettant de mettre en production sur __Streamlite__ le 
 meilleur modèle.
-La production est accessible sur environnement local avec la commande `streamlit --run ./__main__.py` en faisant 
+La production est accessible sur environnement local avec la commande `streamlit run ./__main__.py` en faisant 
 attention d'être dans le bon dossier. Ou en public à l'url suivant :
    * https://appuction---main---py-pd4dsbd4rtpwlfbylopohy.streamlit.app/
 

@@ -24,12 +24,10 @@ import tensorflow_text as text
 
 from utils.constantes import emoticons_regex, stop_words, Tags
 
-st.title("JUSQUE LA CA VA")
 ##########################
 #     CONFIGURATION      #
 ##########################
 repertoire_projet = os.getcwd().replace(r"\\", "/")
-st.write(f"REPERTOIRE : {repertoire_projet}")
 
 
 @st.cache_resource
