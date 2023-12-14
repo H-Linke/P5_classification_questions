@@ -5,8 +5,17 @@ from utils.constantes import Tags
 
 
 st.title("JUSQUE LA CA VA")
-repertoire_projet = os.path.dirname(os.path.abspath(__file__))
+repertoire_projet = os.getcwd().replace(r"\\", "/")
 st.write(f"REPERTOIRE : {repertoire_projet}")
+
+# repertoire_projet = os.path.dirname(os.path.abspath(__file__))
+# # Remonter les répertoires parents jusqu'à atteindre le répertoire racine du projet
+# while not os.path.basename(repertoire_projet) == 'P5_classification_questions':
+#     repertoire_parent = os.path.dirname(repertoire_projet)
+#     if repertoire_parent == repertoire_projet:
+#         raise FileNotFoundError("Répertoire racine du projet introuvable.")
+#     repertoire_projet = repertoire_parent
+
 ##########################
 #      Variables         #
 ##########################
