@@ -3,11 +3,11 @@
 ##########################
 #        IMPORTS         #
 ##########################
-import nltk
-
-nltk.download('punkt')
-nltk.download("wordnet")
-nltk.download('omw-1.4')
+# import nltk
+#
+# nltk.download('punkt')
+# nltk.download("wordnet")
+# nltk.download('omw-1.4')
 
 import os
 import re
@@ -24,12 +24,10 @@ import tensorflow_text as text
 
 from utils.constantes import emoticons_regex, stop_words, Tags
 
-st.title("JUSQUE LA CA VA")
 ##########################
 #     CONFIGURATION      #
 ##########################
 repertoire_projet = os.getcwd().replace(r"\\", "/")
-st.write(f"REPERTOIRE : {repertoire_projet}")
 
 
 @st.cache_resource
@@ -116,15 +114,32 @@ def use_embedding_model():
 def chargement_models_predict():
 
     # Chargement du modèle de prediction
-    model_path = f"{repertoire_projet}/gestion_modeles/mlruns/134896038366573457/8ed5fd432c104d9ba196a3dde3499664/artifacts/Best_Model"
+    model_path = f"{repertoire_projet}/gestion_modeles/mlruns/234254233934860191/64b3b462e5224309acf18f0cff031c60/artifacts/Best_Model_ACP_std"
     predic_model = mlflow.sklearn.load_model(model_path)
 
     return predic_model
 
+@st.cache_resource
+def chargement_scaler():
+
+    # Chargement du modèle de prediction
+    model_path = f"{repertoire_projet}/gestion_modeles/mlruns/234254233934860191/64b3b462e5224309acf18f0cff031c60/artifacts/scaler"
+    scaler = mlflow.sklearn.load_model(model_path)
+
+    return scaler
+
+@st.cache_resource
+def chargement_pca():
+
+    # Chargement du modèle de prediction
+    model_path = f"{repertoire_projet}/gestion_modeles/mlruns/234254233934860191/64b3b462e5224309acf18f0cff031c60/artifacts/ACP"
+    ACP = mlflow.sklearn.load_model(model_path)
+
+    return ACP
 
 
 @st.cache_resource
-def use_and_predict(data, _emb_model, _pred_model):
+def use_and_predict(data, _emb_model, _scaler_model, _acp_model, _pred_model):
     """
 
     :param data: données à prédire sous forme de liste, Serie
@@ -132,7 +147,9 @@ def use_and_predict(data, _emb_model, _pred_model):
     """
 
     data_vec = _emb_model(data).numpy()
-    data_pred = pd.Series(_pred_model.predict(data_vec)[0], index=Tags)
+    data_vec_std = _scaler_model.transform(data_vec)
+    data_vec_acp = _acp_model.transform(data_vec_std)
+    data_pred = pd.Series(_pred_model.predict(data_vec_acp)[0], index=Tags)
 
     pred = data_pred[data_pred == 1].index
 

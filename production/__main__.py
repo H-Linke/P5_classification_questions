@@ -12,6 +12,8 @@ from utils.constantes import Tags
 # Chargement des modèles d'embedding et de prédiction
 use = use_embedding_model()
 pred_model = chargement_models_predict()
+scaler = chargement_scaler()
+ACP = chargement_pca()
 
 st.divider()
 st.title('Proposition automatique de tags pour les questions postées sur StackOverFlow')

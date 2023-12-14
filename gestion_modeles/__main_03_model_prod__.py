@@ -6,9 +6,8 @@
 import itertools
 
 import mlflow.sklearn
-import pandas as pd
-from sklearn.model_selection import cross_validate
-from sklearn.metrics import make_scorer
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
 
 from gestion_modeles.fonctions.models import *
 
@@ -53,21 +52,35 @@ def main():
         X_test = pd.read_csv(f"{embedding_path}_X_test.csv", index_col=0)
         Y_test = pd.read_csv(f"{embedding_path}_Y_test.csv", index_col=0)
 
+        # 1. Standardisation des données
+        scaler = StandardScaler()
+        X_train = scaler.fit_transform(X_train)
+        X_test = scaler.transform(X_test)
+
+        # 2. Appliquer PCA sur l'ensemble d'entraînement sans standardisation
+        pca = PCA(n_components=0.99, random_state=42)
+        X_train_pca = pca.fit_transform(X_train)
+
+        # 3. Appliquer la transformation PCA sur l'ensemble de test sans standardisation
+        X_test_pca = pca.transform(X_test)
+
         # Initialisation du modèle
         model = model_boite(model_base())
 
         print(f'Debut modèle : {embedding_path.split("/")[-2]}, {model_boite.__name__[9:]}, '
               f'{model_base.__name__[9:]}')
 
-        jaccard, f1, f2, f3, hamming = step_4_entrainement_et_performances(model, X_train, Y_train, X_test, Y_test)
+        jaccard, f1, f2, f3, hamming = step_4_entrainement_et_performances(model, X_train_pca, Y_train, X_test_pca, Y_test)
 
-        mlflow.set_experiment("Modèle abouti")
+        mlflow.set_experiment("Modèle abouti avec ACP et standardisation")
 
         with mlflow.start_run(
                 run_name=f'{embedding_path.split("/")[-1]}_{model_boite.__name__[9:]}_{model_base.__name__[9:]}'
         ):
             # Enregistrement du modèle
-            mlflow.sklearn.log_model(model, 'Best_Model')
+            mlflow.sklearn.log_model(model, 'Best_Model_ACP_std')
+            mlflow.sklearn.log_model(pca, 'ACP')
+            mlflow.sklearn.log_model(scaler, 'scaler')
 
             # Log concernant les caractéristiques du modèle entraîné
             mlflow.log_param('Vectoriseur', embedding_path.split("/")[-1])
