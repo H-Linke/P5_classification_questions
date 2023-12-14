@@ -29,7 +29,7 @@ st.title("JUSQUE LA CA VA")
 #     if repertoire_parent == repertoire_projet:
 #         raise FileNotFoundError("Répertoire racine du projet introuvable.")
 #     repertoire_projet = repertoire_parent
-repertoire_projet = os.path.dirname(os.path.abspath(__file__))
+repertoire_projet = os.getcwd().replace(r"\\", "/")
 st.write(f"REPERTOIRE : {repertoire_projet}")
 
 ##########################
