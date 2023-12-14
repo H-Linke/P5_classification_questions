@@ -4,6 +4,9 @@ from utils.fonctions import *
 from utils.constantes import Tags
 
 
+st.title("JUSQUE LA CA VA")
+repertoire_projet = os.path.dirname(os.path.abspath(__file__))
+st.write(f"REPERTOIRE : {repertoire_projet}")
 ##########################
 #      Variables         #
 ##########################
