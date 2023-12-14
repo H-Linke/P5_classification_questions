@@ -26,6 +26,7 @@ repertoire_projet = os.path.dirname(os.path.abspath(__file__))
 # Remonter les répertoires parents jusqu'à atteindre le répertoire racine du projet
 while not os.path.basename(repertoire_projet) == 'P5_classification_questions':
     repertoire_parent = os.path.dirname(repertoire_projet)
+    print(repertoire_parent)
     if repertoire_parent == repertoire_projet:
         raise FileNotFoundError("Répertoire racine du projet introuvable.")
     repertoire_projet = repertoire_parent
